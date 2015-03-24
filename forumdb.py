@@ -18,7 +18,7 @@ def GetAllPosts():
     '''
     DB=psycopg2.connect("dbname=forum") ##forum DB
     c=DB.cursor()#creates an instance of cursor for DB
-    c.execute("SELECT time, content FROm posts ORDER BY time DESC")
+    c.execute("SELECT time, content FROM posts ORDER BY time DESC")
     posts = ({'content': str(row[1]), 'time': str(row[0])} for row in c.fetchall())
     DB.close
     return posts
@@ -31,7 +31,7 @@ def AddPost(content):
       content: The text content of the new post.
     '''
     DB=psycopg2.connect("dbname=forum") ##forum DB
-    c=DB.cursor ## creates an instance of cursor for DB
+    c=DB.cursor() ## creates an instance of cursor for DB
     c.execute("INSERT INTO posts(content) VALUES ('%s')" %content)
-    c.commit()
+    DB.commit()
     DB.close()
